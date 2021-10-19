@@ -1,7 +1,7 @@
 'use strict';
 
-const host = "ws://localhost:8080"
-const dest = "192.168.1.255"
+const host = "http://nitmc.com/"
+const dest = "192.168.86.255"
 const destport = 1234
 
 const Dgram = require('dgram');
@@ -9,7 +9,7 @@ const SocketIO = require("socket.io-client")
 
 let udpemitter = Dgram.createSocket("udp4");
 
-let socket = SocketIO.io(host)
+let socket = SocketIO.io(host,{path:"/LED/socket.io"})
 
 socket.on("setcolor",str=>{
     let r = parseInt(str.substr( 1, 2 ), 16);
@@ -21,5 +21,6 @@ socket.on("setcolor",str=>{
     udpemitter.send(array, 0, array.length, destport, dest);
 })
 socket.on("connect",()=>{
+    console.log("connected")
     socket.emit("controller")
 })

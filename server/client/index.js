@@ -14,10 +14,8 @@ window.onload = function(){
     const hue = document.getElementById("hue")
     const slider = document.getElementById("slider")
 
-    let host = window.document.location.host;
-    let ServerAddress = 'ws://' + host;
     //@ts-ignore
-    Socket = io(ServerAddress);
+    Socket = io({path: location.pathname + "socket.io"});
 
     Socket.on("connect",() => {
         console.log('Socket接続に成功しました');

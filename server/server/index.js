@@ -1,5 +1,7 @@
 'use strict';
 
+const port = 28686
+
 const SocketIO = require("socket.io")
 
 class C2{
@@ -25,8 +27,6 @@ class C2{
         });
     }
 }
-
-const port = 8080
 
 const httpa = require('http');
 const express = require('express');//サーバー
