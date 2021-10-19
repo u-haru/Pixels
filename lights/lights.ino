@@ -16,7 +16,7 @@
 
 CRGB leds[NUM_LEDS];
 
-const char* ssid     = "";
+const char* ssid     = "Halloween4pro";
 const char* password = "";
 static AsyncUDP udp;
 
