@@ -17,7 +17,7 @@
 CRGB leds[NUM_LEDS];
 
 const char* ssid     = "Halloween4pro";
-const char* password = "";
+const char* password = "HappyHalloween4pro";
 static AsyncUDP udp;
 
 void setupWiFi(){

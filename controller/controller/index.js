@@ -7,9 +7,16 @@ const destport = 1234
 const Dgram = require('dgram');
 const SocketIO = require("socket.io-client")
 
+const HttpProxyAgent = require('proxy-agent');
+
+
+let proxy = process.env.http_proxy;
+
+let agent = new HttpProxyAgent(proxy);
+
 let udpemitter = Dgram.createSocket("udp4");
 
-let socket = SocketIO.io(host,{path:"/LED/socket.io"})
+let socket = SocketIO.io(host,{path:"/LED/socket.io",agent: agent})
 
 socket.on("setcolor",str=>{
     let r = parseInt(str.substr( 1, 2 ), 16);
