@@ -11,7 +11,7 @@
 #include <FastLED.h>
 #include <AsyncUDP.h>
 
-#define NUM_LEDS 2
+#define NUM_LEDS 3
 #define PORT 1234
 
 CRGB leds[NUM_LEDS];
@@ -24,6 +24,9 @@ void setupWiFi(){
     Serial.print("Connecting to ");
     Serial.println(ssid);
 
+    leds[0] = CRGB(128,0,0);
+    FastLED.show();
+
     WiFi.begin(ssid, password);
 
     while (WiFi.status() != WL_CONNECTED) {
@@ -35,6 +38,9 @@ void setupWiFi(){
     Serial.println("WiFi connected");
     Serial.println("IP address: ");
     Serial.println(WiFi.localIP());
+
+    leds[0] = CRGB(0,128,0);
+    FastLED.show();
 }
 
 void fade(uint8_t r,uint8_t g,uint8_t b){
@@ -45,11 +51,17 @@ void fade(uint8_t r,uint8_t g,uint8_t b){
         leds[0].red -= diffr;
         leds[0].green -= diffg;
         leds[0].blue -= diffb;
-        leds[1] = leds[0];
+        // leds[1] = leds[0];
+        for(u_int j = 1;j<NUM_LEDS;j++){
+            leds[j] = leds[0];
+        }
         FastLED.show();
         delay(40);
     }
-    leds[1] = leds[0] = CRGB(r,g,b);
+    // leds[1] = leds[0] = CRGB(r,g,b);
+    for(u_int i = 0;i<NUM_LEDS;i++){
+        leds[i] = CRGB(r,g,b);
+    }
     FastLED.show();
 }
 
@@ -66,10 +78,14 @@ void udphandler(AsyncUDPPacket packet){
 void setup()
 { 
     FastLED.addLeds<NEOPIXEL, 5>(leds, NUM_LEDS); 
-    leds[0] = leds[1] = 0;
+    // leds[0] = leds[1] = 0;
     FastLED.show();
     Serial.begin(115200);
     setupWiFi();
+
+    for(u_int j = 0;j<NUM_LEDS;j++){
+        leds[j] = 0;
+    }
 
     if(udp.listen(PORT)) {
         Serial.print("UDP Listening on IP: ");
